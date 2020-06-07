@@ -8,6 +8,15 @@ const Title = require('../models/title').Title;
 const Employee = require('../models/employee').Employee;
 const EmployeeType = require('./employee');
 
+// Validations
+const {
+  CantSetStartDateLessThanEndDate
+} = require('../validators/date.validator');
+
+const {
+  CheckIfEmployeesTitleIsAlreadyRegistered
+} = require('../validators/title.validator');
+
 // Graphql Types
 const {
     GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt
@@ -15,27 +24,36 @@ const {
 
 // Project Type
 const TitleType = new GraphQLObjectType({
-    name: 'TitleType',
-    description: 'Represents employee titles',
-    fields: () => Object.assign(AuditableObjectFields, {
-      id: { type: GraphQLID },
-      employee: {
-        type: EmployeeType,
-        extensions: {
-          relation: {
-            connectionField: "employee_id",
-            embedded: false
-          }
-        },
-        resolve(parent, args) {
-          return Employee.findById(parent.employee_id);
+  name: 'TitleType',
+  description: 'Represents employee titles',
+  extensions: {
+    validations: {
+      'CREATE':
+      [
+        CantSetStartDateLessThanEndDate,
+        CheckIfEmployeesTitleIsAlreadyRegistered
+      ]
+    },
+  },
+  fields: () => Object.assign(AuditableObjectFields, {
+    id: { type: GraphQLID },
+    employee: {
+      type: EmployeeType,
+      extensions: {
+        relation: {
+          connectionField: "employee_id",
+          embedded: false
         }
       },
-    title: { type: GraphQLString },
-    from_date: { type: GraphQLString },
-    to_date: { type: GraphQLString }
-    })
-  });
+      resolve(parent, args) {
+        return Employee.findById(parent.employee_id);
+      }
+    },
+  title: { type: GraphQLString },
+  from_date: { type: GraphQLString },
+  to_date: { type: GraphQLString }
+  })
+});
 
 // It's a Collection 
 gnx.connect(Title, TitleType, 'title', 'titles');
