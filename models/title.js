@@ -1,19 +1,29 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const titleFields = {
-    empID: Schema.Types.ObjectId,
-    title: String,
-    from_date: String,
-    to_date: String
-};
+const TitleSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    from_date: { 
+        type: Date,
+        required: false
+    },
+    to_date: { 
+        type: Date,
+        required: false
+    },
+    employee_id: { 
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }
+})
 
-const titleSchema = new Schema({ titleFields });
-
-const Title = mongoose.model('Title', titleSchema, 'title');
+const Title = mongoose.model('Title', TitleSchema);
 
 if (!Title.collection.collection) {
     Title.createCollection();
 }
 
-module.exports = { Title, titleFields };
+module.exports = { Title, TitleSchema };
