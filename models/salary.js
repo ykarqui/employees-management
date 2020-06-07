@@ -1,19 +1,30 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const salaryFields = {
-    salary: Number,
-    from_date: String,
-    to_date: String,
-    empID: mongoose.Schema.Types.ObjectId
-};
+const SalarySchema = new Schema({
+    salary: { 
+        type: Number,
+        required: true
+    },
+    from_date: { 
+        type: Date,
+        required: false
+    },
+    to_date: { 
+        type: Date,
+        required: false
+    },
+    employee_id: { 
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }  
+})
 
-const salarySchema = new Schema({ salaryFields });
 
-const Salary = mongoose.model('Salary', salarySchema, 'salary');
+const Salary = mongoose.model('Salary', SalarySchema);
 
 if (!Salary.collection.collection) {
     Salary.createCollection();
 }
 
-module.exports = { Salary, salaryFields };
+module.exports = { Salary, SalarySchema };

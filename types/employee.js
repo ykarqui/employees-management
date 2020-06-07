@@ -7,7 +7,7 @@ const gnx = require('@simtlix/gnx');
 
 const {
     GraphQLObjectType, GraphQLString, GraphQLID,
-    GraphQLInt, GraphQLList, GraphQLNumeric
+    GraphQLInt, GraphQLNonNull
 } = graphql;
 
 const EmployeeType = new GraphQLObjectType({
@@ -15,7 +15,7 @@ const EmployeeType = new GraphQLObjectType({
     description: 'Represent employees',
     fields: () => Object.assign(AuditableObjectFields, {
       id: { type: GraphQLID },
-      dni: { type: GraphQLNumeric },
+      dni: { type: GraphQLInt },
       birth_date: { type: GraphQLString },
       first_name: { type: GraphQLString },
       last_name: { type: GraphQLString },

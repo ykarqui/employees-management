@@ -1,16 +1,17 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const departmentFields = {
-    dept_name: String
-};
+const DepartmentSchema = new Schema({
+  dept_name: {
+    type: String,
+    required: true
+  }
+});
 
-const departmentSchema = new Schema({ departmentFields });
-
-const Department = mongoose.model('Department', departmentSchema, 'department');
+const Department = mongoose.model("department", DepartmentSchema);
 
 if (!Department.collection.collection) {
-    Department.createCollection();
+  Department.createCollection();
 }
 
-module.exports = { Department, departmentFields };
+module.exports = {Department, DepartmentSchema};

@@ -8,8 +8,7 @@ const {
 } = require('../validators/department.validator');
 
 const {
-    GraphQLObjectType, GraphQLString, GraphQLID,
-    GraphQLInt, GraphQLList
+    GraphQLObjectType, GraphQLString, GraphQLID
 } = graphql;
 
 const DepartmentType = new GraphQLObjectType({
@@ -18,10 +17,6 @@ const DepartmentType = new GraphQLObjectType({
     extensions: {
       validations: {
         'CREATE':
-        [
-          CantRepeatDepartmentName
-        ],
-        'UPDATE':
         [
           CantRepeatDepartmentName
         ]
