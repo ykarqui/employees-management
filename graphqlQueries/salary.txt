@@ -1,0 +1,18 @@
+mutation {
+  addsalary(input: {
+    employee:{
+    id: "5edc675b6c323564b12701c6" 
+    }
+    salary:999
+    from_date:"2020-02-02"
+    to_date:"2020-02-02"
+  })
+  {
+    salary  
+    from_date
+    employee{
+      dni
+      first_name
+    }
+  }
+}

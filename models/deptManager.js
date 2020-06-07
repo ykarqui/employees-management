@@ -1,19 +1,29 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const deptManagerFields = {
-    empID: mongoose.Schema.Types.ObjectId,
-    deptID: mongoose.Schema.Types.ObjectId,
-    from_date: String,
-    to_date: String
-};
+const DeptManagerSchema = new Schema({
+    from_date: { 
+        type: Date,
+        required: false
+    },
+    to_date: { 
+        type: Date,
+        required: false
+    },
+    employee_id: { 
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    department_id: { 
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    }
+})
 
-const deptManagerSchema = new Schema({ deptManagerFields });
-
-const DeptManager = mongoose.model('DeptManager', deptManagerSchema, 'deptManager');
+const DeptManager = mongoose.model('DeptManager', DeptManagerSchema);
 
 if (!DeptManager.collection.collection) {
     DeptManager.createCollection();
 }
 
-module.exports = { DeptManager, deptManagerFields };
+module.exports = { DeptManager, DeptManagerSchema };

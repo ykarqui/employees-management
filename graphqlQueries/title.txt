@@ -1,0 +1,18 @@
+mutation {
+  addtitle(input: {
+    employee:{
+    id: "5edc700732052619141c6332" 
+    }
+    title:"Ingeniero en Informatica"
+    from_date:"2020-02-02"
+    to_date:"2020-02-02"
+  })
+  {
+    title  
+    from_date
+    employee{
+      dni
+      first_name
+    }
+  }
+}

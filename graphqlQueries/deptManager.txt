@@ -1,0 +1,23 @@
+mutation {
+  adddeptManager(input: {
+    employee:{
+    id: "5edc700732052619141c6332" 
+    }
+    department:{
+    id: "5edc710c32052619141c6335" 
+    }
+    from_date:"2020-02-02"
+    to_date:"2020-02-02"
+  })
+  {
+    from_date
+    employee{
+      dni
+      first_name
+    }
+    department{
+      id
+      dept_name
+    }
+  }
+}

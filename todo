@@ -1,6 +1,6 @@
 Requisites
-
-1 - Create collections employees, salaries, titles, departments, dept_manager, dept_employees
+DONE:
+1 - Create collections employees, salaries, titles, departments, dept_manager, dept_employees @done
 2 - Employee must have dni, birth_date, firsta_name, last_name, gender, hire_date
 3 - Salaries must have empId, salary, from_date, to_date
 4 - Titles must have empId, title, from_date, to_date
