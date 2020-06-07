@@ -15,6 +15,10 @@ const {
   CantSetStartDateLessThanEndDate
 } = require('../validators/date.validator');
 
+const {
+  CantSetTheSameEmplToTheSameDept
+} = require('../validators/dept.validator');
+
 // Graphql Types
 const {
     GraphQLObjectType, GraphQLString, GraphQLID, GraphQLInt
@@ -28,7 +32,8 @@ const DeptEmployeeType = new GraphQLObjectType({
     validations: {
       'CREATE':
       [
-        CantSetStartDateLessThanEndDate
+        CantSetStartDateLessThanEndDate, 
+        CantSetTheSameEmplToTheSameDept
       ]
     },
   },
