@@ -3,15 +3,15 @@ const gnx = require('@simtlix/gnx');
 const GNXError = gnx.GNXError;
 
 // Project imports
-const { DeptEmployee } = require('../models/deptEmployee');
+const { DeptManager } = require('../models/deptManager');
 
-/* This method checks that the same employee
+/* This method checks that the same Manager
 *  ins't in the same department
 *  in the same portion of time
 */
-const CantSetTheSameEmplToTheSameDept ={
+const CantSetTheSameManagerToTheSameDept ={
     validate: async function(typeName, originalObject, materializedObject) {
-        const DeptFinded = await DeptEmployee.findOne({ 'employee': materializedObject.employee });
+        const DeptFinded = await DeptManager.findOne({ 'employee': materializedObject.employee });
         if (DeptFinded && DeptFinded.department === materializedObject.department) {
 
             const dateFromA = new Date(materializedObject.from_date);   // received
@@ -31,24 +31,23 @@ const CantSetTheSameEmplToTheSameDept ={
 
             // FROM_DATE OR TO_DATE couldn't be the same
             if( (yearFromA == yearFromB && monthFromA == monthFromB) || (yearToA == yearToB && monthToA == monthToB) ){
-                throw new CantSetTheSameEmployeeToTheSameDeptError(typeName);
-            }
+                throw new CantSetTheSameManagerToTheSameDeptError(typeName);
+            } 
         }
     }
 };
 
 /* Custom Exception Handler
-*  called by from CantSetTheSameEmplToTheSameDept
+*  called by from CantSetTheSameManagerToTheSameDept
 *  which throws an error message 
 */
-class CantSetTheSameEmployeeToTheSameDeptError extends GNXError {
+class CantSetTheSameManagerToTheSameDeptError extends GNXError {
     constructor(typeName) {
-      super(typeName,'This employee is already in the same department in the same time', 'CantSetTheSameEmployeeToTheSameDeptError');
+      super(typeName,'This manager is already in the same department in the same time', 'CantSetTheSameManagerToTheSameDeptError');
     }
 };
 
 // Export module
 module.exports ={
-    CantSetTheSameEmplToTheSameDept
+    CantSetTheSameManagerToTheSameDept
 };
-
