@@ -1,5 +1,6 @@
 const express = require('express');
-// eslint-disable-next-line
+const chalk = require('chalk');
+
 const gnx = require('@simtlix/gnx');
 const app = express();
 
@@ -8,11 +9,10 @@ const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 mongoose.plugin(require('./plugins/auditablePluginSchema'));
 
-
-mongoose.connect('mongodb://localhost:27017,localhost:27018,localhost:27019/example', { replicaSet: 'rs' })
+mongoose.connect('mongodb://localhost:27017,localhost:27018,localhost:27019/example', { replicaSet: 'rs', useNewUrlParser: true, useUnifiedTopology: true });
 
 mongoose.connection.once('open', () => {
-  console.log('connected to database')
+  console.log(chalk.green('Connected to database'));
 })
 
 const types = require('./types');
@@ -28,5 +28,6 @@ app.use('/graphql', graphqlHTTP({
   }))
 
 app.listen(3000, () => {
-    console.log('Listening on port 3000')
+    console.log('Listening on port 3000');
+    console.log(chalk.blue('Open at http://localhost:3000/graphql'));
 })
