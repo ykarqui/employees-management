@@ -7,7 +7,7 @@ const Department = require('../models/department').Department;
 
 // Validations
 const {
-  CantRepeatDepartmentName
+  CantRepeatDepartmentName, CantDeleteDepartmentWithChilds
 } = require('../validators/department.validator');
 
 // Graphql Types
@@ -24,7 +24,11 @@ const DepartmentType = new GraphQLObjectType({
       'CREATE':
       [
         CantRepeatDepartmentName
-      ]
+      ],
+      'DELETE' :
+      [
+        CantDeleteDepartmentWithChilds,
+      ],
     },
   },
   fields: () => ({

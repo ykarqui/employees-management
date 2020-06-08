@@ -9,8 +9,9 @@ const GenderTypeEnum = require('./enums/gender.enum');
 
 // Validations
 const {
-  CheckIfEmployeeIsLegalAge
+  CheckIfEmployeeIsLegalAge, CantDeleteEmployeeWithChilds
 } = require('../validators/employee.validator');
+
 
 // Graphql Types
 const {
@@ -27,7 +28,11 @@ const EmployeeType = new GraphQLObjectType({
       'CREATE':
       [
         CheckIfEmployeeIsLegalAge
-      ]
+      ],
+      'DELETE' :
+      [
+        CantDeleteEmployeeWithChilds,
+      ],
     },
   },
   fields: () => Object.assign(AuditableObjectFields, {

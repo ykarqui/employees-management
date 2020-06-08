@@ -1,0 +1,5 @@
+mutation {
+  deleteemployee (id: "5eddcc61e628b325958fd6ae"){
+    id
+  }
+}

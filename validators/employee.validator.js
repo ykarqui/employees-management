@@ -4,6 +4,10 @@ const GNXError = gnx.GNXError;
 
 // Project imports
 const { Employee } = require('../models/employee');
+const Salary = require('../models/salary').Salary;
+const Title = require('../models/title').Title;
+const DeptManager = require('../models/deptManager').DeptManager;
+const DeptEmployee = require('../models/deptEmployee').DeptEmployee;
 
 /* This method checks that the employee 
 *  that the employee is over 18 years old
@@ -23,6 +27,35 @@ const CheckIfEmployeeIsLegalAge ={
     }
 };
 
+/* This method checks that the employee 
+*  doesn't have any childs in the others Collection
+*/
+const CantDeleteEmployeeWithChilds = {
+    validate: async function(typeName, originalObject, materializedObject) {
+        
+        const SalaryFinded = await Salary.findOne({'employee_id': originalObject});
+        const TitleFinded = await Title.findOne({'employee_id': originalObject});
+        const DeptFinded = await DeptManager.findOne({'employee_id':originalObject});
+        const DeptEmplFinded = await DeptEmployee.findOne({'employee_id':originalObject});
+
+        if (SalaryFinded) {
+            throw new CantDeleteEmployeeWithChildsError(typeName, 'The employee must not have salary');
+        }
+
+        if (TitleFinded) {
+            throw new CantDeleteEmployeeWithChildsError(typeName, 'The employee must not have title');
+        }
+
+        if (DeptFinded) {
+            throw new CantDeleteEmployeeWithChildsError(typeName, 'The employee must not have deptManager');
+        }
+
+        if (DeptEmplFinded) {
+            throw new CantDeleteEmployeeWithChildsError(typeName, 'The employee must not have deptEmployee');
+        }
+    }
+};
+
 /* Custom Exception Handler
 *  called by from CheckIfEmployeeIsLegalAgeError
 *  which throws an error message 
@@ -33,7 +66,18 @@ class CheckIfEmployeeIsLegalAgeError extends GNXError {
     }
 };
 
+/* Custom Exception Handler
+*  called by from CantDeleteEmployeeWithChilds
+*  which throws an error message 
+*/
+class CantDeleteEmployeeWithChildsError extends GNXError {
+    constructor(typeName, msg) {
+      super(typeName, msg, 'CantDeleteEmployeeWithChildsError');
+    }
+};
+
 // Export module
 module.exports ={
-    CheckIfEmployeeIsLegalAge
+    CheckIfEmployeeIsLegalAge, 
+    CantDeleteEmployeeWithChilds
 };
